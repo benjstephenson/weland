@@ -1,0 +1,31 @@
+{
+    "name": "weland",
+    "version": "0.0.1",
+    "description": "a stdlib for building things",
+    "type": "module",
+    "scripts": {
+        "compile": "tsc -p .",
+        "test": "vitest run",
+        "test:cov": "vitest run --coverage"
+    },
+    "keywords": [
+        "array"
+    ],
+    "author": "Benji Stephenson",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/benjstephenson/weland"
+    },
+    "license": "ISC",
+    "main": "dist/src/index.js",
+    "types": "dist/src/index.d.ts",
+    "devDependencies": {
+        "@types/node": "^20.12.8",
+        "@vitest/coverage-v8": "^1.5.2",
+        "fast-check": "^3.17.2",
+        "mismatched": "^3.0.0",
+        "typescript": "^5.4.5",
+        "vite-plugin-circular-dependency": "^0.4.1",
+        "vitest": "^1.5.2"
+    }
+}
