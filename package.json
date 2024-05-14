@@ -1,8 +1,7 @@
 {
     "name": "weland",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "a stdlib for building things",
-    "type": "module",
     "scripts": {
         "compile": "tsc -p .",
         "test": "vitest run",
