@@ -3,6 +3,10 @@ import { Applicative } from "../typeclass/applicative"
 import { HKT, Kind } from "../typeclass/hkt"
 import { tuple } from "./constructors"
 
+type InferTupleMembers<T extends Kind<any, any, any, any>[]> = {
+    [K in keyof T]: T[K] extends Kind<any, any, infer U> ? U : never
+}
+
 export const sequence =
     <G extends HKT>(G: Applicative<G>) =>
     <A, E, R>(fa: Kind<G, A, E, R>[]): Kind<G, A[], E, R> =>

@@ -5,10 +5,10 @@ export interface Typeclass<F extends HKT> {
 }
 
 export interface HKT {
-    readonly A?: unknown
-    readonly E?: unknown
-    readonly R?: unknown
-    readonly type?: unknown
+    readonly A: unknown
+    readonly E: unknown
+    readonly R: unknown
+    readonly type: unknown
 }
 
 export type Kind<F extends HKT, A, E = never, R = never> = F extends { readonly type: unknown }

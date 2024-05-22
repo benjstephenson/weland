@@ -1,6 +1,6 @@
 export { ArrayM as Monad, isEmpty, isNonEmpty, getSemigroup, getFold } from "./instance"
 export { NonEmptyArray } from "./types"
-export { apply } from "./apply"
+export * from "./apply"
 export { distinct } from "./distinct"
 export { fold, unfold } from "./fold"
 export { groupBy } from "./groupBy"

@@ -2,7 +2,7 @@ import { dual, pipe } from "../functions"
 import { Applicative } from "../typeclass/applicative"
 import { HKT, Kind } from "../typeclass/hkt"
 import { flatMap, map } from "./map"
-import { sequence } from "./traverse"
+import { tuple } from "./constructors"
 
 const apply: {
     <A, B>(self: A[], fab: ((a: A) => B)[]): B[]
@@ -14,7 +14,7 @@ const apply: {
     )
 })
 
-export const mapN = <F extends HKT>(
+const mapN = <F extends HKT>(
     F: Applicative<F>
 ): {
     <B, E, R, Fas extends Kind<F, any, E, R>[]>(
@@ -28,11 +28,23 @@ export const mapN = <F extends HKT>(
     dual(
         2,
         <B, E, R, Fas extends Kind<F, any, E, R>[]>(
-            self: [...Fas],
+            self: Fas,
             f: (args: { [k in keyof Fas]: Fas[k] extends Kind<F, infer A, E, R> ? A : never }) => B
         ): Kind<F, B, E, R> => {
-            return F.map(sequence(F)(self), f)
+            const build = (list: Fas) => {
+                const [head, ...tail] = list
+                let out: Kind<F, any[], E, R> = F.map(head, tuple)
+                for (let i = 0; i < tail.length; i++) {
+                    out = F.apply(
+                        out,
+                        F.map(tail[i], v => a => tuple(...a, v))
+                    )
+                }
+                return out
+            }
+
+            return F.map(build(self), f)
         }
     )
 
-export { apply }
+export { apply, mapN }

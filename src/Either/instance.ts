@@ -1,5 +1,8 @@
 import { Either, Left, Right } from "."
-import { HKT } from "../typeclass/hkt"
+import { Sg } from ".."
+import { dual } from "../functions"
+import { Applicative } from "../typeclass/applicative"
+import { HKT, Kind } from "../typeclass/hkt"
 import { Monad } from "../typeclass/monad"
 import { Semigroup } from "../typeclass/semigroup"
 import { Traversable } from "../typeclass/traversable"
@@ -8,6 +11,8 @@ import { left, right } from "./constructors"
 import { fold } from "./fold"
 import { flatMap, map } from "./map"
 import { sequence, traverse } from "./traverse"
+
+type Simplify<A> = { [K in keyof A]: A[K] } extends infer B ? B : never
 
 interface EitherF extends HKT {
     readonly type: Either<this["A"], this["E"]>
@@ -36,4 +41,18 @@ const getLeftSemigroup = <E>(S: Semigroup<E>): Semigroup<Either<never, E>> =>
         concat: (x, y) => (isRight(x) ? y : isRight(y) ? x : left(S.concat(x.value, y.value)))
     }) as const
 
-export { isLeft, isRight, EitherM, getSemigroup, getLeftSemigroup }
+const getValidation = <E>(S: Semigroup<E>): Applicative<EitherF & { readonly E: E }> => ({
+    apply: dual(2, <A, B>(self: Either<A, E>, fab: Either<(a: A) => B, E>): Either<B, E> => {
+        return isLeft(self)
+            ? isLeft(fab)
+                ? left(S.concat(self.value, fab.value))
+                : self
+            : isLeft(fab)
+              ? fab
+              : right(fab.value(self.value))
+    }),
+    of: right,
+    map
+})
+
+export { isLeft, isRight, EitherM, getSemigroup, getLeftSemigroup, getValidation }
