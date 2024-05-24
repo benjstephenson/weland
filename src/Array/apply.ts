@@ -14,26 +14,29 @@ const apply: {
     )
 })
 
+type InferTuple<F extends HKT, T> = { [k in keyof T]: T[k] extends Kind<F, infer A, any, any> ? A : never }
+type Error<F extends HKT, R extends Kind<F, any, any, any>[]> = R extends Kind<F, any, infer E, any>[] ? E : never
+
 const mapN = <F extends HKT>(
     F: Applicative<F>
 ): {
-    <B, E, R, Fas extends Kind<F, any, E, R>[]>(
-        self: [...Fas],
-        f: (args: { [k in keyof Fas]: Fas[k] extends Kind<F, infer A, E, R> ? A : never }) => B
-    ): Kind<F, B, E, R>
-    <B, E, R, Fas extends Kind<F, any, E, R>[]>(
-        f: (args: { [k in keyof Fas]: Fas[k] extends Kind<F, infer A, E, R> ? A : never }) => B
-    ): (self: [...Fas]) => Kind<F, B, E, R>
+    <B, Self extends Kind<F, any, F["E"], any>[]>(
+        self: [...Self],
+        f: (args: InferTuple<F, Self>) => B
+    ): Kind<F, B, Error<F, Self>, F["R"]>
+    <B, Self extends Kind<F, any, F["E"], F["R"]>[]>(
+        f: (args: InferTuple<F, Self>) => B
+    ): (self: [...Self]) => Kind<F, B, Error<F, Self>, F["R"]>
 } =>
     dual(
         2,
-        <B, E, R, Fas extends Kind<F, any, E, R>[]>(
-            self: Fas,
-            f: (args: { [k in keyof Fas]: Fas[k] extends Kind<F, infer A, E, R> ? A : never }) => B
-        ): Kind<F, B, E, R> => {
-            const build = (list: Fas) => {
+        <B, Self extends Kind<F, any, any, any>[]>(
+            self: Self,
+            f: (args: InferTuple<F, Self>) => B
+        ): Kind<F, B, Error<F, Self>> => {
+            const build = (list: Self) => {
                 const [head, ...tail] = list
-                let out: Kind<F, any[], E, R> = F.map(head, tuple)
+                let out: Kind<F, any[], Error<F, Self>> = F.map(head, tuple)
                 for (let i = 0; i < tail.length; i++) {
                     out = F.apply(
                         out,
