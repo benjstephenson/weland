@@ -14,13 +14,15 @@ const apply: {
     )
 })
 
-type InferTuple<F extends HKT, T> = { [k in keyof T]: T[k] extends Kind<F, infer A, any, any> ? A : never }
+type InferTuple<F extends HKT, T extends Kind<F, any, any, any>[]> = {
+    [k in keyof T]: T[k] extends Kind<F, infer A, any, any> ? A : never
+}
 type Error<F extends HKT, R extends Kind<F, any, any, any>[]> = R extends Kind<F, any, infer E, any>[] ? E : never
 
 const mapN = <F extends HKT>(
     F: Applicative<F>
 ): {
-    <B, Self extends Kind<F, any, F["E"], any>[]>(
+    <B, Self extends Kind<F, any, F["E"], F["R"]>[]>(
         self: [...Self],
         f: (args: InferTuple<F, Self>) => B
     ): Kind<F, B, Error<F, Self>, F["R"]>

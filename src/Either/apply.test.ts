@@ -1,12 +1,12 @@
 import { assertThat } from "mismatched"
-import { pipe } from "../functions"
-import { apply } from "./apply"
-import { map } from "./map"
-import { left, right } from "./constructors"
-import { getValidation } from "./instance"
 import { Sg } from ".."
 import { mapN } from "../Array"
 import { Either, mapN as mapNEither } from "../Either"
+import { pipe } from "../functions"
+import { apply } from "./apply"
+import { left, right } from "./constructors"
+import { getValidation } from "./instance"
+import { map } from "./map"
 
 describe("either apply", () => {
     const inc = (a: number) => a + 1
@@ -18,19 +18,19 @@ describe("either apply", () => {
     })
 
     it("applicative semi mapN", () => {
-        const a = getValidation(Sg.array<number>())
+        const a = getValidation(Sg.array<string>())
         const m = mapN(a)
-
         const result = pipe(
-            [right(1), right(2), left(["bang!"])],
+            [right(1), right(2), left(["bang!"])] as Either<number, string[]>[],
             m(([a, b, c]) => `${a}${b}${c}`)
         )
 
         const result2 = m([right(1), right(2), left(["bang!"])], ([a, b, c]) => `${a}${b}${c}`)
         assertThat(result).is(result2)
-
-        assertThat(m([right(1), right(2), right(3)], () => "hello")).is(right("hello"))
-        assertThat(m([right(1), right(2), left(["oops"])], () => "hello")).is(left(["oops"]))
+        assertThat(m([right(1), right(2), right(3)], ([_a, _b, _c]) => "hello")).is(right("hello"))
+        assertThat(m([right(1), right(2), left(["oops"])] as Either<number, string[]>[], () => "hello")).is(
+            left(["oops"])
+        )
         assertThat(m([left(["oopsy"]), right(2), left(["daisy"])] as Either<number, string[]>[], () => "hello")).is(
             left(["oopsy", "daisy"])
         )

@@ -1,7 +1,7 @@
 import { Either, Left, Right } from "."
 import { dual } from "../functions"
 import { Applicative } from "../typeclass/applicative"
-import { HKT } from "../typeclass/hkt"
+import { HKT, URI } from "../typeclass/hkt"
 import { Monad } from "../typeclass/monad"
 import { Semigroup } from "../typeclass/semigroup"
 import { Traversable } from "../typeclass/traversable"
@@ -11,12 +11,9 @@ import { fold } from "./fold"
 import { flatMap, map } from "./map"
 import { sequence, traverse } from "./traverse"
 
-type Simplify<A> = { [K in keyof A]: A[K] } extends infer B ? B : never
-
-type Modify<T, R> = Omit<T, keyof R> & R
-type SetE<F extends HKT, E> = Modify<F, { readonly E: E }>
-
-interface EitherF extends HKT {
+interface EitherF<E = unknown> extends HKT {
+    [URI]: "Either"
+    readonly E: E
     readonly type: Either<this["A"], this["E"]>
 }
 
@@ -43,7 +40,7 @@ const getLeftSemigroup = <E>(S: Semigroup<E>): Semigroup<Either<never, E>> =>
         concat: (x, y) => (isRight(x) ? y : isRight(y) ? x : left(S.concat(x.value, y.value)))
     }) as const
 
-const getValidation = <E>(S: Semigroup<E>): Applicative<SetE<EitherF, E>> => ({
+const getValidation = <E>(S: Semigroup<E>): Applicative<EitherF<E>> => ({
     apply: dual(2, <A, B>(self: Either<A, E>, fab: Either<(a: A) => B, E>): Either<B, E> => {
         return isLeft(self)
             ? isLeft(fab)
