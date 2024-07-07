@@ -11,7 +11,6 @@ export const GreaterThan: GreaterThan = 1
 export interface Ord<A> extends Eq.Equal<A> {
     compare: (x: A, y: A) => Ordering
     lessThan: (x: A, y: A) => boolean
-    equalTo: (x: A, y: A) => boolean
     greaterThan: (x: A, y: A) => boolean
 }
 
@@ -19,7 +18,6 @@ export const from = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => ({
     equals: (x, y) => compare(x, y) === EqualTo,
     compare,
     lessThan: (x: A, y: A) => compare(x, y) === LessThan,
-    equalTo: (x: A, y: A) => compare(x, y) === EqualTo,
     greaterThan: (x: A, y: A) => compare(x, y) === GreaterThan
 })
 
