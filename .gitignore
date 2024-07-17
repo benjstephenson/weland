@@ -40,3 +40,5 @@ coverage
 # Docker compose mounts
 volume/
 .tool-versions
+
+docs

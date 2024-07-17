@@ -6,6 +6,7 @@
         "compile": "tsc -p .",
         "test": "vitest run",
         "test:cov": "vitest run --coverage",
+        "typedoc": "typedoc",
         "pub": "pnpm compile && pnpm test && pnpm publish --access=public"
     },
     "keywords": [
@@ -24,6 +25,7 @@
         "@vitest/coverage-v8": "^1.5.2",
         "fast-check": "^3.17.2",
         "mismatched": "^3.0.0",
+        "typedoc": "^0.26.4",
         "typescript": "^5.4.5",
         "vite-plugin-circular-dependency": "^0.4.1",
         "vitest": "^1.5.2"

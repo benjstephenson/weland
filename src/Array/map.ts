@@ -1,11 +1,17 @@
 import { dual, identity } from "../functions"
 import { AnyArray, ArrayElem, InferArrayType } from "./types"
 
+/**
+ * Apply a function A => B to each element of a list A, returning B[]
+ */
 export const map: {
     <Arr extends AnyArray, B>(self: Arr, f: (a: ArrayElem<Arr>) => B): InferArrayType<Arr, B>
     <Arr extends AnyArray, B>(f: (a: ArrayElem<Arr>) => B): (self: Arr) => InferArrayType<Arr, B>
 } = dual(2, <A, B>(self: A[], f: (a: A) => B): B[] => self.map(f))
 
+/**
+ * Apply a function A => B[] to each element of a list A, returning B[]
+ */
 export const flatMap: {
     <Arr extends AnyArray, B>(self: Arr, f: (a: ArrayElem<Arr>) => InferArrayType<Arr, B>): InferArrayType<Arr, B>
     <Arr extends AnyArray, B>(f: (a: ArrayElem<Arr>) => InferArrayType<Arr, B>): (self: Arr) => InferArrayType<Arr, B>

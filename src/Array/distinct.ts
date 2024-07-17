@@ -1,6 +1,9 @@
 import * as Eq from "../Order/Equal"
 import { dual } from "../functions"
 
+/* Given an Equal instance for A, return an array of distinct elements.
+ * Currently, the array elemets are copied by reference.
+ */
 export const distinct: {
     <A>(self: A[], eq: Eq.Equal<A>): A[]
     <A>(eq: Eq.Equal<A>): (self: A[]) => A[]
