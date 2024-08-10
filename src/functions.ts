@@ -50,3 +50,31 @@ export function pipe(a: unknown, ab?: Function, bc?: Function, cd?: Function, de
             return rest.reduce((result, fn) => fn(result), head)
     }
 }
+
+export function compose<A, B>(ab: (a: A) => B): (a: A) => B
+export function compose<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
+export function compose<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
+export function compose<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
+export function compose<A, B, C, D, E, F>(
+    ab: (a: A) => B,
+    bc: (b: B) => C,
+    cd: (c: C) => D,
+    de: (d: D) => E,
+    ef: (e: E) => F
+): (a:A) => F
+export function compose(ab: Function, bc?: Function, cd?: Function, de?: Function, ef?: Function): unknown {
+    switch (arguments.length) {
+        case 1:
+            return ab
+        case 2:
+            return _ => bc!(ab(_))
+        case 3:
+            return _ => cd!(bc!(ab(_)))
+        case 4:
+            return _ => de!(cd!(bc!(ab(_))))
+        case 5:
+            return _ => ef!(de!(cd!(bc!(ab(_)))))
+    }
+
+    return
+}

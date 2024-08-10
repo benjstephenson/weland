@@ -1,8 +1,13 @@
 import * as Eq from "../Order/Equal"
 import { dual } from "../functions"
 
-/* Given an Equal instance for A, return an array of distinct elements.
- * Currently, the array elemets are copied by reference.
+/** Given an Equal instance for A, return an array of distinct elements.
+ * Array elements are copied by reference.
+ *
+ * @example
+ * import \{ Arr, Eq \} from "weland"
+ *
+ * Arr.distinct([1, 1, 2, 3, 2, 1], Eq.number) === [1, 2, 3]
  */
 export const distinct: {
     <A>(self: A[], eq: Eq.Equal<A>): A[]

@@ -1,4 +1,5 @@
 export * as Arr from "./Array"
+export { NonEmptyArray } from "./Array/types"
 export * as Either from "./Either"
 export * as Equal from "./Order/Equal"
 export * as Ord from "./Order/Orderable"

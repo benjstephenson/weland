@@ -16,7 +16,7 @@ export default defineConfig({
         coverage: {
             reporter: ["cobertura", "text"],
             provider: "v8",
-            exclude: ["src/index.ts", "src/typeclass", "src/**/*.test.ts", "src/vite-env.d.ts"]
+            exclude: ["src/index.ts", "src/typeclass", "src/**/*.test.ts", "src/vite-env.d.ts", "docs/"]
         }
     }
 })
