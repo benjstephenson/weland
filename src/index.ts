@@ -1,3 +1,4 @@
+export * as Rec from "./Record"
 export * as Arr from "./Array"
 export { NonEmptyArray } from "./Array/types"
 export * as Either from "./Either"
