@@ -8,13 +8,13 @@ export const LessThan: LessThan = -1
 export const EqualTo: EqualTo = 0
 export const GreaterThan: GreaterThan = 1
 
-export interface Ord<A> extends Eq.Equal<A> {
+export interface Order<A> extends Eq.Equal<A> {
     compare: (x: A, y: A) => Ordering
     lessThan: (x: A, y: A) => boolean
     greaterThan: (x: A, y: A) => boolean
 }
 
-export const from = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => ({
+export const from = <A>(compare: (x: A, y: A) => Ordering): Order<A> => ({
     equals: (x, y) => compare(x, y) === EqualTo,
     compare,
     lessThan: (x: A, y: A) => compare(x, y) === LessThan,
@@ -23,9 +23,9 @@ export const from = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => ({
 
 const primitive = <A>(x: A, y: A): Ordering => (x < y ? LessThan : x > y ? GreaterThan : EqualTo)
 
-export const contramap = <A, B>(f: (b: B) => A, ord: Ord<A>): Ord<B> => from((x: B, y: B) => ord.compare(f(x), f(y)))
+export const contramap = <A, B>(f: (b: B) => A, ord: Order<A>): Order<B> => from((x: B, y: B) => ord.compare(f(x), f(y)))
 
-export const number: Ord<number> = from(primitive)
-export const string: Ord<string> = from(primitive)
-export const boolean: Ord<boolean> = from(primitive)
-export const date: Ord<Date> = contramap(d => d.valueOf(), number)
+export const number: Order<number> = from(primitive)
+export const string: Order<string> = from(primitive)
+export const boolean: Order<boolean> = from(primitive)
+export const date: Order<Date> = contramap(d => d.valueOf(), number)
