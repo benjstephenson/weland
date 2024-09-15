@@ -6,7 +6,8 @@ describe("record destructors", () => {
     const rec = {
         a: 1,
         b: 2,
-        c: 3
+        c: 3,
+        [Symbol("foo")]: 4
     }
 
     it("gets keys", () => {
