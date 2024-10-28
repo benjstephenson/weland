@@ -1,6 +1,6 @@
 {
     "name": "weland",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "a stdlib for building things",
     "scripts": {
         "compile": "tsc -p .",

@@ -1,9 +1,9 @@
 import { dual } from "../functions"
 
 export const mapKV: {
-    <K extends string, V, B>(self: Record<K, V>, f: (k: K, v: V) => B): Record<K, B>
-    <K extends string, V, B>(f: (k: K, v: V) => B): (self: Record<K, V>) => Record<K, B>
-} = dual(2, <K extends string, V, B>(self: Record<K, V>, f: (k: K, v: V) => B): Record<K, B> => {
+    <K extends string | number | symbol , V, B>(self: Record<K, V>, f: (k: K, v: V) => B): Record<K, B>
+    <K extends string | number | symbol, V, B>(f: (k: K, v: V) => B): (self: Record<K, V>) => Record<K, B>
+} = dual(2, <K extends string | number | symbol, V, B>(self: Record<K, V>, f: (k: K, v: V) => B): Record<K, B> => {
 
     const out: Record<K, B> = {} as any
 
@@ -17,7 +17,7 @@ export const mapKV: {
 })
 
 export const map: {
-    <K extends string, V, B>(self: Record<K, V>, f: (v: V) => B): Record<K, B>
-    <K extends string, V, B>(f: (v: V) => B): (self: Record<K, V>) => Record<K, B>
-} = dual(2, <K extends string, V, B>(self: Record<K, V>, f: (v: V) => B): Record<K, B> => mapKV(self, (_, v) => f(v)))
+    <K extends string | number | symbol, V, B>(self: Record<K, V>, f: (v: V) => B): Record<K, B>
+    <K extends string | number | symbol, V, B>(f: (v: V) => B): (self: Record<K, V>) => Record<K, B>
+} = dual(2, <K extends string | number | symbol, V, B>(self: Record<K, V>, f: (v: V) => B): Record<K, B> => mapKV(self, (_, v) => f(v)))
 

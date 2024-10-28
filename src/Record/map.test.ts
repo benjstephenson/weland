@@ -12,6 +12,10 @@ describe("Record", () => {
         assertThat(map(rec, n => n + 1)).is({ a: 2, b: 3, c: 4 })
     })
 
+    it("maps with number keys", () => {
+        assertThat(map({1: 1, 2: 2, 3: 3}, n => n + 1)).is({ 1: 2, 2: 3, 3: 4 })
+    })
+
     it("maps keys and values", () => {
         assertThat(mapKV(rec, (k, n) => `${k}_${n + 1}`)).is({ a: "a_2", b: "b_3", c: "c_4" })
     })
