@@ -1,10 +1,12 @@
 export * as Rec from "./Record"
 export * as Arr from "./Array"
-export { NonEmptyArray } from "./Array/types"
+export { NonEmptyArray, Tupled } from "./Array/types"
 export * as Either from "./Either"
 export * as Equal from "./Order/Equal"
 export * as Order from "./Order/Orderable"
 export * as Sg from "./Semigroup"
+
+export { pipe, identity } from "./functions"
 
 export { Applicative } from "./typeclass/applicative"
 export { Apply } from "./typeclass/apply"

@@ -1,6 +1,6 @@
 {
     "name": "weland",
-    "version": "0.5.3",
+    "version": "0.5.4",
     "description": "a stdlib for building things",
     "scripts": {
         "compile": "tsc -p .",
@@ -22,12 +22,12 @@
     "types": "dist/src/index.d.ts",
     "devDependencies": {
         "@types/node": "^20.12.8",
-        "@vitest/coverage-v8": "^1.5.2",
-        "fast-check": "^3.17.2",
-        "mismatched": "^3.0.0",
-        "typedoc": "^0.26.4",
+        "@vitest/coverage-v8": "^2.1.4",
+        "fast-check": "^3.23.0",
+        "mismatched": "^3.3.5",
+        "typedoc": "^0.26.11",
         "typescript": "^5.4.5",
-        "vite-plugin-circular-dependency": "^0.4.1",
-        "vitest": "^1.5.2"
+        "vite-plugin-circular-dependency": "^0.5.0",
+        "vitest": "^2.1.4"
     }
 }
