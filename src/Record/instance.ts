@@ -1,13 +1,22 @@
 import { HKT } from "../typeclass/hkt"
+import { Semigroup } from "../typeclass/semigroup"
 
 interface RecF extends HKT {
     readonly type: Array<this["A"]>
 }
 
-//const getSemigroup = <A>(S: Semigroup<A>): Semigroup<A[]> => ({
-//    concat: (x, y) => zipWith(x, y, S.concat)
-//})
-//
-//const getFold = <A>(M: Monoid<A>) => fromMonoid(M, ArrayM)
-//
-//export { ArrayF, ArrayM, isEmpty, isNonEmpty, getSemigroup, getFold }
+type SemigroupFor<A extends Record<string | number, any>> = {
+    [key in keyof A]: Semigroup<A[key]>
+}
+
+const getSemigroup = <A extends Record<string | number, any>>(S: SemigroupFor<A>): Semigroup<A> => ({
+    concat: (x: A, y: A) => 
+        (Object.keys(x) as (keyof A)[]).reduce<A>((acc, key) => {
+            acc[key] = S[key].concat(x[key], y[key])
+            return acc
+        },
+            {} as A)
+    
+})
+
+export { RecF, getSemigroup }
