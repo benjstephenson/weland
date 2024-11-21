@@ -7,7 +7,7 @@ export const match: {
         empty: () => B,
         1?: (a: A) => B,
         nonEmpty: (a: NonEmptyArray<A>) => B
-    })
+    }): B
     <A, B>(fns: {
         empty: () => B,
         1?: (a: A) => B,
