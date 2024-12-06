@@ -1,14 +1,20 @@
 import { assertThat } from "mismatched"
 import * as Eq from "./Equal"
+import fc from "fast-check"
 
 describe("Equal", () => {
     it("number", () => {
-        assertThat(Eq.number.equals(1, 1)).is(true)
+        fc.assert(fc.property(fc.integer(), num => 
+            assertThat(Eq.number.equals(num, num)).is(true)
+        ))
         assertThat(Eq.number.equals(1, 2)).is(false)
     })
 
     it("string", () => {
-        assertThat(Eq.string.equals("1", "1")).is(true)
+        fc.assert(fc.property(fc.string(), str => 
+            assertThat(Eq.string.equals(str, str)).is(true)
+        ))
+
         assertThat(Eq.string.equals("1", "2")).is(false)
     })
 
@@ -19,9 +25,12 @@ describe("Equal", () => {
     })
 
     it("date", () => {
+        fc.assert(fc.property(fc.date(), date => 
+            assertThat(Eq.date.equals(date, date)).is(true)
+        ))
+
         const date1 = new Date(2020, 1, 1)
         const date2 = new Date(2022, 1, 1)
-        assertThat(Eq.date.equals(date1, date1)).is(true)
         assertThat(Eq.date.equals(date1, date2)).is(false)
     })
 
@@ -48,5 +57,15 @@ describe("Equal", () => {
 
         assertThat(eq.equals(rec1, rec1)).is(true)
         assertThat(eq.equals(rec1, rec2)).is(false)
+    })
+
+    it("array", () => {
+        fc.assert(fc.property(fc.array(fc.integer()), arr => {
+            assertThat(Eq.array(Eq.number).equals(arr, arr)).is(true)
+        }))
+
+        assertThat(Eq.array(Eq.number).equals([1, 2, 3, 4], [])).is(false)
+        assertThat(Eq.array(Eq.number).equals([1, 2, 3, 4], [1, 2, 3])).is(false)
+        assertThat(Eq.array(Eq.number).equals([1, 2, 3, 4], [3, 4, 5, 6])).is(false)
     })
 })
