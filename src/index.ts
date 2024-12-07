@@ -6,6 +6,8 @@ export * as Equal from "./Order/Equal"
 export * as Order from "./Order/Orderable"
 export * as Sg from "./Semigroup"
 
+export * as Tx from "./Transducer"
+
 export { pipe, identity } from "./functions"
 
 export { Applicative } from "./typeclass/applicative"
