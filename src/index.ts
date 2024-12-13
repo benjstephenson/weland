@@ -6,7 +6,7 @@ export * as Equal from "./Order/Equal"
 export * as Order from "./Order/Orderable"
 export * as Sg from "./Semigroup"
 
-export * as Tx from "./Transducer"
+export * as Transduce from "./Transducer"
 
 export { pipe, identity } from "./functions"
 
